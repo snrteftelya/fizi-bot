@@ -4,6 +4,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher.filters import Text
+import os
 from aiogram.utils.markdown import hbold, hcode, hunderline, pre, hitalic, hspoiler
 from aiogram import Bot, Dispatcher, executor, types
 from bs4 import BeautifulSoup
@@ -421,9 +422,10 @@ async def get_id(message:types.Message, state: FSMContext):
             global i
             i = message.text
             url = f"https://phys.reshuct.by/problem?id={i}"
-            driver = webdriver.Chrome(executable_path="chromedriver")
             options = webdriver.ChromeOptions()
+            options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM', None)
             options.add_argument(f"--proxy-server={proxies['http']}")
+            driver = webdriver.Chrome(executable_path="chromedriver", chrome_options=options)
             try:
                 buttons = [
                     types.InlineKeyboardButton("Решение", callback_data="resh")
@@ -467,9 +469,10 @@ async def get_id(message:types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="resh", state=get_reshuct.get_num)
 async def resh(call: types.CallbackQuery):
-    driver = webdriver.Chrome(executable_path="chromedriver")
     options = webdriver.ChromeOptions()
+    options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM', None)
     options.add_argument(f"--proxy-server={proxies['http']}")
+    driver = webdriver.Chrome(executable_path="chromedriver", chrome_options=options)
     url = f"https://phys.reshuct.by/problem?id={i}"
     try:
         buttons = [
@@ -509,9 +512,10 @@ async def resh(call: types.CallbackQuery):
 async def test(call: types.CallbackQuery, state: FSMContext):
     try:
         url = f"https://phys.reshuct.by/problem?id={i}"
-        driver = webdriver.Chrome(executable_path="chromedriver")
         options = webdriver.ChromeOptions()
+        options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM', None)
         options.add_argument(f"--proxy-server={proxies['http']}")
+        driver = webdriver.Chrome(executable_path="chromedriver", chrome_options=options)
         buttons = [
             types.InlineKeyboardButton("Решение", callback_data="resh")
         ]
