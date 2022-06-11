@@ -1,3 +1,4 @@
+import requests
 import time
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -420,7 +421,7 @@ async def get_id(message:types.Message, state: FSMContext):
             global i
             i = message.text
             url = f"https://phys.reshuct.by/problem?id={i}"
-            driver = webdriver.Chrome(executable_path="C:\\Users\\user\\Desktop\\physics\\chromedriver.exe")
+            driver = webdriver.Chrome(executable_path="chromedriver")
             options = webdriver.ChromeOptions()
             options.add_argument(f"--proxy-server={proxies['http']}")
             try:
@@ -466,7 +467,7 @@ async def get_id(message:types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="resh", state=get_reshuct.get_num)
 async def resh(call: types.CallbackQuery):
-    driver = webdriver.Chrome(executable_path="C:\\Users\\user\\Desktop\\physics\\chromedriver.exe")
+    driver = webdriver.Chrome(executable_path="chromedriver")
     options = webdriver.ChromeOptions()
     options.add_argument(f"--proxy-server={proxies['http']}")
     url = f"https://phys.reshuct.by/problem?id={i}"
@@ -508,7 +509,7 @@ async def resh(call: types.CallbackQuery):
 async def test(call: types.CallbackQuery, state: FSMContext):
     try:
         url = f"https://phys.reshuct.by/problem?id={i}"
-        driver = webdriver.Chrome(executable_path="C:\\Users\\user\\Desktop\\physics\\chromedriver.exe")
+        driver = webdriver.Chrome(executable_path="chromedriver")
         options = webdriver.ChromeOptions()
         options.add_argument(f"--proxy-server={proxies['http']}")
         buttons = [
