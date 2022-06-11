@@ -1,4 +1,3 @@
-import requests
 import time
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
