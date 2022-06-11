@@ -422,10 +422,14 @@ async def get_id(message:types.Message, state: FSMContext):
             global i
             i = message.text
             url = f"https://phys.reshuct.by/problem?id={i}"
-            options = webdriver.ChromeOptions()
-            options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM', None)
-            options.add_argument(f"--proxy-server={proxies['http']}")
-            driver = webdriver.Chrome(executable_path="chromedriver", options=options)
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument(f"--proxy-server={proxies['http']}")
+            driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+                                      chrome_options=chrome_options)
             try:
                 buttons = [
                     types.InlineKeyboardButton("Решение", callback_data="resh")
@@ -469,10 +473,13 @@ async def get_id(message:types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="resh", state=get_reshuct.get_num)
 async def resh(call: types.CallbackQuery):
-    options = webdriver.ChromeOptions()
-    options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM', None)
-    options.add_argument(f"--proxy-server={proxies['http']}")
-    driver = webdriver.Chrome(executable_path="chromedriver", options=options)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument(f"--proxy-server={proxies['http']}")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     url = f"https://phys.reshuct.by/problem?id={i}"
     try:
         buttons = [
@@ -512,10 +519,13 @@ async def resh(call: types.CallbackQuery):
 async def test(call: types.CallbackQuery, state: FSMContext):
     try:
         url = f"https://phys.reshuct.by/problem?id={i}"
-        options = webdriver.ChromeOptions()
-        options.binary_location = os.environ.get('GOOGLE_CHROME_SHIM', None)
-        options.add_argument(f"--proxy-server={proxies['http']}")
-        driver = webdriver.Chrome(executable_path="chromedriver", options=options)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument(f"--proxy-server={proxies['http']}")
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         buttons = [
             types.InlineKeyboardButton("Решение", callback_data="resh")
         ]
