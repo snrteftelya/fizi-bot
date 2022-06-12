@@ -427,7 +427,6 @@ async def get_id(message:types.Message, state: FSMContext):
             chrome_options.add_argument("--headless")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument(f"--proxy-server={proxies['http']}")
             driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"),
                                       chrome_options=chrome_options)
             try:
@@ -478,7 +477,6 @@ async def resh(call: types.CallbackQuery):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument(f"--proxy-server={proxies['http']}")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
     url = f"https://phys.reshuct.by/problem?id={i}"
     try:
@@ -524,7 +522,6 @@ async def test(call: types.CallbackQuery, state: FSMContext):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument(f"--proxy-server={proxies['http']}")
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
         buttons = [
             types.InlineKeyboardButton("Решение", callback_data="resh")
