@@ -520,7 +520,9 @@ async def resh(call: types.CallbackQuery):
     except:
         await call.message.answer("У этого номера нет ответа😢")
     finally:
-        db_object.execute('INSERT INTO photo_id(number, test_id, resh_id) VALUES (i, id_task, id_answ)')
+        postgres_insert_query = """ INSERT INTO photo_id(number, test_id, resh_id) VALUES (%s, %s, %s)"""
+        record_to_insert = (i, id_task, id_answ)
+        db_object.execute(postgres_insert_query, record_to_insert)
         db_connection.commit()
         driver.close()
         driver.quit()
