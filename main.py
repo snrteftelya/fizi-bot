@@ -524,6 +524,8 @@ async def resh(call: types.CallbackQuery):
         record_to_insert = (i, id_task, id_answ)
         db_object.execute(postgres_insert_query, record_to_insert)
         db_connection.commit()
+        db_object.close()
+        db_connection.close()
         driver.close()
         driver.quit()
 
