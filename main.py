@@ -5,6 +5,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher.filters import Text
 import os
+import psycopg2
 from aiogram.utils.markdown import hbold, hcode, hunderline, pre, hitalic, hspoiler
 from aiogram import Bot, Dispatcher, executor, types
 from bs4 import BeautifulSoup
@@ -13,11 +14,14 @@ from selenium.webdriver.common.by import By
 from PIL import Image
 
 proxies = {"http": "195.201.19.84:443"}
+DB_URI = "postgres://beazbjbqcqpwpk:419e837d6540dbd640e083b10e15711e16f411740ce38a1719564ce9018d8c3b@ec2-52-48-159-67.eu-west-1.compute.amazonaws.com:5432/d8gbkt2qdpd7fv"
 token = "5339329933:AAGy-RfAx48MgtMXdJ2djuGpNJpfqZwdKh8"
 storage = MemoryStorage()
 bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
 dp = Dispatcher(bot, storage=storage)
 admin_id = 644784412
+db_connection = psycopg2.connect(DB_URI, sslmode="require")
+db_object = db_connection.cursor()
 start_buttons = ["Задача с Капельяна", "Задача с РешуЦт"]
 reset_button = ["Вернуться➡"]
 
@@ -510,6 +514,9 @@ async def resh(call: types.CallbackQuery):
     except:
         await call.message.answer("У этого номера нет ответа😢")
     finally:
+        db_object.execute("INSERT INTO photo_id(number, test_id, resh_id) VALUES (%s, %s, %s",
+                          (i, photo_task, photo_answ))
+        db_connection.commit()
         driver.close()
         driver.quit()
 
