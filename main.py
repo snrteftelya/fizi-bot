@@ -462,6 +462,9 @@ async def get_id(message:types.Message, state: FSMContext):
                 photo1 = open("test.png", "rb")
                 global photo_task
                 photo_task = await message.answer_photo(photo=photo1)
+                global id_task
+                id_task = photo_task['photo'][0]['file_id']
+                print(id_task)
                 await text_test.edit_text(text=f"Условие задания №{i}", reply_markup=keyboard)
             except:
                 await message.answer("Такого задания не существует...")
@@ -505,6 +508,9 @@ async def resh(call: types.CallbackQuery):
         photo2 = open("resh.png", "rb")
         global photo_answ
         photo_answ = await call.message.answer_photo(photo=photo2)
+        global id_answ
+        id_answ = photo_answ['photo'][0]['file_id']
+        print(id_answ)
         await call.message.edit_text(text=f"Решение задания №{i}", reply_markup=keyboard)
         await call.answer(show_alert=True)
         try:
@@ -515,7 +521,7 @@ async def resh(call: types.CallbackQuery):
         await call.message.answer("У этого номера нет ответа😢")
     finally:
         db_object.execute("INSERT INTO photo_id(number, test_id, resh_id) VALUES (%s, %s, %s",
-                          (i, photo_task, photo_answ))
+                          (i, id_task, id_answ))
         db_connection.commit()
         driver.close()
         driver.quit()
