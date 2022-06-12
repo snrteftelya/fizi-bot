@@ -463,7 +463,8 @@ async def get_id(message:types.Message, state: FSMContext):
                 global id_task
                 id_task = photo_task['photo'][0]['file_id']
                 print(id_task)
-                await text_test.edit_text(text=f"Условие задания №{i}", reply_markup=keyboard)
+                await text_test.delete()
+                await message.answer(f"Условие задания №{i}", reply_markup=keyboard)
             except:
                 await message.answer("Такого задания не существует...")
             finally:
