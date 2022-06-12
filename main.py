@@ -20,8 +20,6 @@ storage = MemoryStorage()
 bot = Bot(token=token, parse_mode=types.ParseMode.HTML)
 dp = Dispatcher(bot, storage=storage)
 admin_id = 644784412
-db_connection = psycopg2.connect(DB_URI, sslmode="require")
-db_object = db_connection.cursor()
 start_buttons = ["Задача с Капельяна", "Задача с РешуЦт"]
 reset_button = ["Вернуться➡"]
 
@@ -520,6 +518,8 @@ async def resh(call: types.CallbackQuery):
     except:
         await call.message.answer("У этого номера нет ответа😢")
     finally:
+        db_connection = psycopg2.connect(DB_URI, sslmode="require")
+        db_object = db_connection.cursor()
         postgres_insert_query = """ INSERT INTO photo_id(number, test_id, resh_id) VALUES (%s, %s, %s)"""
         record_to_insert = (i, id_task, id_answ)
         db_object.execute(postgres_insert_query, record_to_insert)
